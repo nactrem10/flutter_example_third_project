@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/app_drawer.dart';
 import '../widgets/products_grid.dart';
 import '../widgets/badge.dart';
-import '../widgets/app_drawer.dart';
-
-import '../screens/cart_screen.dart';
-
 import '../providers/cart.dart';
+import './cart_screen.dart';
 
 enum FilterOptions {
   Favorites,
@@ -20,7 +18,7 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
-  var _showOnlyFav = false;
+  var _showOnlyFavorites = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +30,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             onSelected: (FilterOptions selectedValue) {
               setState(() {
                 if (selectedValue == FilterOptions.Favorites) {
-                  _showOnlyFav = true;
+                  _showOnlyFavorites = true;
                 } else {
-                  _showOnlyFav = false;
+                  _showOnlyFavorites = false;
                 }
               });
             },
@@ -49,13 +47,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               PopupMenuItem(
                 child: Text('Show All'),
                 value: FilterOptions.All,
-              )
+              ),
             ],
           ),
           Consumer<Cart>(
-            builder: (_, cartData, ch) => Badge(
+            builder: (_, cart, ch) => Badge(
               child: ch,
-              value: cartData.itemCount.toString(),
+              value: cart.itemCount.toString(),
             ),
             child: IconButton(
               icon: Icon(
@@ -65,11 +63,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 Navigator.of(context).pushNamed(CartScreen.routeName);
               },
             ),
-          )
+          ),
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(_showOnlyFav),
+      body: ProductsGrid(_showOnlyFavorites),
     );
   }
 }
