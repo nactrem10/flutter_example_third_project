@@ -32,7 +32,7 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticate(
       String email, String password, String urlHead) async {
-    final url = '$urlHead?key=AIzaSyCV4HYgNsPw3M13CxqTwaYjUkGHwmhKpJE';
+    final url = '$urlHead?key=';
     try {
       final response = await http.post(
         url,
